@@ -443,7 +443,7 @@ paths:
         - name: X-Token
           in: header
           description: Авторизационный токен пользователя
-          example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20
+          example: Bearer T2xpdmVyLmNvbm5lckBnbWFpbC5jb20
           required: true
           schema:
             type: string

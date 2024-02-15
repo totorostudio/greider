@@ -1,41 +1,29 @@
-# Получить объявление по идентификатору
+# 2.1.7. Получение детальной информации по товару
 GET http://localhost:5000/offers/65508a19a106825f8c621708 HTTP/1.1+
 Content-Type: application/json
 
 ###
 
-## Получить список объявлений
+## 2.1.6. Получение списка товаров. TODO Применения фильтров в запросе.
 GET http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
 
 ###
 
-## Получить список всех избранных объявлений
-GET http://localhost:5000/offers/favorites HTTP/1.1
-Content-Type: application/json
-
-###
-
-## Получить список премиум офферов для заданного города (не больше 3 штук).
-GET http://localhost:5000/offers/premium/paris HTTP/1.1
-Content-Type: application/json
-
-###
-
-## Создать новое объявление
+## 5.1.1. Сервис предоставляет ресурс для создания новых карточек товаров.
 POST http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
 
 ###
 
-## Удалить объявление по идентификатору
+## 2.1.5. Удаление товара.
 
 DELETE http://localhost:5000/offers/6553aab20e67e0a900012370 HTTP/1.1
 Content-Type: application/json
 
 ###
 
-## Обновить объявление
+## 2.1.4. Редактирование карточки товара.
 
 PATCH http://localhost:5000/offers/655117d18e0f26f8c21686d2 HTTP/1.1
 Content-Type: application/json
@@ -46,17 +34,5 @@ Content-Type: application/json
   "price": 44444,
   "rating": 2.0
 }
-
-###
-
-# Получить комментарии по офферу
-GET http://localhost:5000/offers/65508a19a106825f8c621708/comments HTTP/1.1+
-Content-Type: application/json
-
-###
-
-# Изменить статус isFavorite
-POST http://localhost:5000/offers/favorites/65508a19a106825f8c621708/1
-Content-Type: application/json
 
 ###

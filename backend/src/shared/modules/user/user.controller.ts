@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { BaseController, HttpError, HttpMethod, ValidateDtoMiddleware, ValidateObjectIdMiddleware, UploadFileMiddleware } from '../../libs/rest/index.js';
+import { BaseController, HttpError, HttpMethod, ValidateDtoMiddleware } from '../../libs/rest/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { Component } from '../../types/index.js';
-import { UserService, UserRdo, LoginUserRdo, LoggedUserRdo, CreateUserDto, LoginUserDto, UploadUserAvatarRdo, CreateUserRequest, LoginUserRequest } from './index.js';
+import { UserService, UserRdo, LoginUserRdo, LoggedUserRdo, CreateUserDto, LoginUserDto, CreateUserRequest, LoginUserRequest } from './index.js';
 import { Config, RestSchema } from '../../libs/config/index.js';
 import { fillDTO } from '../../helpers/index.js';
 import { AuthService } from '../auth/index.js';
@@ -37,15 +37,6 @@ export class UserController extends BaseController {
       handler: this.login,
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
     });
-    this.addRoute({
-      path: '/:userId/avatar',
-      method: HttpMethod.Post,
-      handler: this.uploadAvatar,
-      middlewares: [
-        new ValidateObjectIdMiddleware('userId'),
-        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
-      ]
-    });
   }
 
   public async create({ body }: CreateUserRequest, res: Response): Promise<void> {
@@ -68,13 +59,6 @@ export class UserController extends BaseController {
     const token = await this.authService.authenticate(user);
     const responseData = fillDTO(LoginUserRdo, {token});
     this.ok(res, responseData);
-  }
-
-  public async uploadAvatar({ params, file }: Request, res: Response) {
-    const { userId } = params;
-    const uploadFile = { avatar: file?.filename };
-    await this.userService.updateById(userId, uploadFile);
-    this.created(res, fillDTO(UploadUserAvatarRdo, { filepath: uploadFile.avatar }));
   }
 
   public async checkAuthenticate({ tokenPayload: { email }}: Request, res: Response) {

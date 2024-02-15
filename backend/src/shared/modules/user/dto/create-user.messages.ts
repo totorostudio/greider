@@ -8,14 +8,8 @@ export const CreateUserMessages = {
   email: {
     invalidFormat: 'email must be a valid address'
   },
-  avatar: {
-    invalidFormat: '.jpg or .png image URL required',
-  },
   password: {
     invalidFormat: 'password is required',
     lengthField: `min length for password is ${UserPasswordLength.Min}, max is ${UserPasswordLength.Max}`
-  },
-  userType: {
-    invalidFormat: 'must be pro or standard',
   },
 } as const;

@@ -6,3 +6,4 @@ export const STATIC_RESOURCE_FIELDS = [
   'avatar',
   'image'
 ];
+//TODO удалить если не пригодится для загрузки фото товара

@@ -1,53 +1,33 @@
-import { IMAGES_NUMBER, GOODS_MIN_COUNT, OfferTitleLength, DescriptionLength, RoomsNumber, GuestsNumber, PriceValue } from '../../../const/index.js';
+import { OfferTitleLength, DescriptionLength, PriceValue, IMAGE_MAX_LENGTH, ArtikulLength } from '../../../const/index.js';
 
 export const CreateOfferValidationMessage = {
   title: {
-    minLength: `Minimum title length must be ${OfferTitleLength.Min}`,
-    maxLength: `Maximum title length must be ${OfferTitleLength.Max}`,
+    minLength: `Минимальная длина заголовка ${OfferTitleLength.Min} символов`,
+    maxLength: `Максимальная длина заголовка ${OfferTitleLength.Max} символов`,
   },
   description: {
-    minLength: `Minimum description length must be ${DescriptionLength.Min}`,
-    maxLength: `Maximum description length must be ${DescriptionLength.Max}`,
+    minLength: `Минимальная длина описания ${DescriptionLength.Min} символов`,
+    maxLength: `Максимальная длина описания ${DescriptionLength.Max} символов`,
   },
-  offerDate: {
-    invalidFormat: 'offerDate must be a valid ISO date',
+  date: {
+    invalidFormat: 'Дата создания товара должна быть в ISO date формате',
   },
-  city: {
-    invalid: 'Only a city from a given list is allowed',
+  type: {
+    invalid: 'Тип гитары не соответствует допустимым значениям',
   },
-  images: {
-    maxLength: 'Too long for field «image»',
-    invalid:  `${IMAGES_NUMBER} images required`,
+  image: {
+    maxLength: `Слишком длинный URL изображения (максимум ${IMAGE_MAX_LENGTH} символов`,
   },
-  isPremium: {
-    invalidFormat: 'isPremium must be true or false',
+  artikul: {
+    minLength: `Минимальная длина описания ${ArtikulLength.Min} символов`,
+    maxLength: `Максимальная длина описания ${ArtikulLength.Max} символов`,
   },
-  isFavorite: {
-    invalidFormat: 'isFavorite must be true or false',
-  },
-  property: {
-    invalidFormat: 'Only a item from a given list is allowed',
-  },
-  roomsCount: {
-    invalidFormat: `The roomsCount must be a number from ${RoomsNumber.Min} to ${RoomsNumber.Max}.`,
-  },
-  guestsCount: {
-    invalidFormat: `The guestsCount must be a number from ${GuestsNumber.Min} to ${GuestsNumber.Max}.`,
+  strings: {
+    invalidFormat: 'Количество струн не соответствет допустимому набору значений',
   },
   price: {
     invalidFormat: 'Price must be an integer',
     minValue: `Minimum price is ${PriceValue.Min}`,
     maxValue: `Maximum price is ${PriceValue.Max}`,
-  },
-  goods: {
-    invalidFormat: 'Value must be an array',
-    minSize: `At least ${GOODS_MIN_COUNT} item is required`,
-    invalidValue: 'Only an item from a given list is allowed',
-  },
-  userId: {
-    invalidId: 'userId field must be a valid id',
-  },
-  location: {
-    invalidObject: 'Location must be an object',
   },
 } as const;
