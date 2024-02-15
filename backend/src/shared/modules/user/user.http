@@ -1,0 +1,46 @@
+# Пользователи
+## Создать нового пользователя
+
+POST http://localhost:5000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Dougie2",
+  "email": "dougie2@overlook.com",
+  "avatar": "dougie.png",
+  "password": "123456",
+  "userType": "pro"
+}
+
+###
+
+## Авторизовать пользователя
+
+POST http://localhost:5000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "dougie@overlook.com",
+  "password": "123456"
+}
+
+###
+
+## Отправить изображение
+
+POST http://localhost:5000/users/6548c5f043927a226009bba6/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="test.png"
+Content-Type: image/png
+
+< C:\test.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+## Проверить токен пользователя
+GET http://localhost:5000/users/login HTTP/1.1
+
+##
