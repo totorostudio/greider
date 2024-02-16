@@ -1,7 +1,6 @@
-import { defaultClasses, getModelForClass, modelOptions, prop, Ref, Severity } from '@typegoose/typegoose';
-import { DescriptionLength, GuestsNumber, OfferTitleLength, PriceValue, RoomsNumber } from '../../const/index.js';
-import { Goods, City, Property, Location } from '../../types/index.js';
-import { UserEntity } from '../user/index.js';
+import { defaultClasses, getModelForClass, modelOptions, prop, Severity } from '@typegoose/typegoose';
+import { DescriptionLength, OfferTitleLength, PriceValue } from '../../const/index.js';
+import { Guitar, Strings } from '../../types/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -34,65 +33,32 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     require: true,
     default: new Date(),
   })
-  public offerDate!: Date;
+  public date!: Date;
 
   @prop({
     type: () => String,
-    enum: City,
+    enum: Guitar,
     require: true,
   })
-  public city!: City;
+  public type!: Guitar;
 
   @prop({
     require: true,
   })
-  public preview!: string;
-
-  @prop({
-    type: () => [String],
-    require: true,
-    default: [],
-  })
-  public images!: string[];
+  public image!: string;
 
   @prop({
     require: true,
     default: false,
   })
-  public isPremium!: boolean;
+  public artikul!: string;
 
   @prop({
-    require: true,
-    default: false,
-  })
-  public isFavorite?: boolean;
-
-  @prop({
-    require: true,
-    default: 0,
-  })
-  public rating!: number;
-
-  @prop({
-    type: () => String,
-    enum: Property,
+    type: () => Number,
+    enum: Strings,
     require: true,
   })
-  public property!: Property;
-
-  @prop({
-    require: true,
-    min: RoomsNumber.Min,
-    max: RoomsNumber.Max,
-  })
-  public roomsCount!: number;
-
-  @prop({
-    require: true,
-    min: GuestsNumber.Min,
-    max: GuestsNumber.Max,
-  })
-  public guestsCount!: number;
+  public strings!: Strings;
 
   @prop({
     require: true,
@@ -100,30 +66,6 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     max: PriceValue.Max,
   })
   public price!: number;
-
-  @prop({
-    type: () => [String],
-    enum: Goods,
-    require: true,
-    default: []
-  })
-  public goods!: Goods[];
-
-  @prop({
-    ref: UserEntity,
-    require: true,
-  })
-  public userId!: Ref<UserEntity>;
-
-  @prop({
-    default: 0,
-  })
-  public commentCount?: number;
-
-  @prop({
-    require: true,
-  })
-  public location!: Location;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

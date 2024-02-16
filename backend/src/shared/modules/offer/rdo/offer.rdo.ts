@@ -1,34 +1,28 @@
 import { Expose } from 'class-transformer';
-import { City, Property } from '../../../types/index.js';
+import { Guitar, Strings } from '../../../types/index.js';
 
 export class OfferRdo {
   @Expose()
   public title: string;
 
   @Expose()
-  public offerDate: string;
+  public description: string;
 
   @Expose()
-  public city: City;
+  public date: string;
 
   @Expose()
-  public preview: string;
+  public type: Guitar;
 
   @Expose()
-  public isPremium: boolean;
+  public image: string;
 
   @Expose()
-  public isFavorite: boolean;
+  public artikul: string;
 
   @Expose()
-  public rating: number;
-
-  @Expose()
-  public property: Property;
+  public strings: Strings;
 
   @Expose()
   public price: number;
-
-  @Expose()
-  public commentCount: number;
 }

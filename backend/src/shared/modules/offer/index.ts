@@ -5,7 +5,6 @@ export * from './offer-service.interface.js';
 export * from './default-offer.service.js';
 export * from './offer.container.js';
 export * from './rdo/offer.rdo.js';
-export * from './rdo/fulloffer.rdo.js';
 export * from './dto/create-offer.messages.js';
 export * from './type/param-offerid.type.js';
 export * from './type/create-offer-request.type.js';

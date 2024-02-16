@@ -2,14 +2,14 @@ import { UserNameLength, UserPasswordLength } from '../../../const/index.js';
 
 export const CreateUserMessages = {
   name: {
-    invalidFormat: 'name is required',
-    lengthField: `min length is ${UserNameLength.Min}, max is ${UserNameLength.Max}`,
+    invalidFormat: 'введите имя',
+    lengthField: `минимальная длина имени ${UserNameLength.Min}, максимальная ${UserNameLength.Max} символов`,
   },
   email: {
-    invalidFormat: 'email must be a valid address'
+    invalidFormat: 'введенное значение почты некорректно'
   },
   password: {
-    invalidFormat: 'password is required',
-    lengthField: `min length for password is ${UserPasswordLength.Min}, max is ${UserPasswordLength.Max}`
+    invalidFormat: 'введите пароль',
+    lengthField: `минимальная длина пароля ${UserPasswordLength.Min}, максимальная ${UserPasswordLength.Max} символов`
   },
 } as const;

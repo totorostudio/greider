@@ -1,5 +1,5 @@
 import { DocumentType, types } from '@typegoose/typegoose';
-import { UserService, UserEntity, CreateUserDto, UpdateUserDto } from './index.js';
+import { UserService, UserEntity, CreateUserDto } from './index.js';
 import { inject, injectable } from 'inversify';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
@@ -16,7 +16,7 @@ export class DefaultUserService implements UserService {
     user.setPassword(dto.password, salt);
 
     const result = await this.userModel.create(user);
-    this.logger.info(`New user created: ${user.email}`);
+    this.logger.info(`Создан новый пользователь: ${user.email}`);
 
     return result;
   }
@@ -33,10 +33,4 @@ export class DefaultUserService implements UserService {
   public async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
     return this.userModel.findOne({email}).exec();
   }
-
-  public async updateById(userId: string, dto: UpdateUserDto): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel
-      .findByIdAndUpdate(userId, dto, { new: true })
-      .exec();
-  } //TODO удалить если не пригодится
 }

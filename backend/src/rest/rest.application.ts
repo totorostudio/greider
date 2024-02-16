@@ -20,7 +20,6 @@ export class RestApplication {
     @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter,
     @inject(Component.UserController) private readonly userController: Controller,
     @inject(Component.OfferController) private readonly offerController: Controller,
-    @inject(Component.CommentController) private readonly commentController: Controller,
     @inject(Component.AuthExceptionFilter) private readonly authExceptionFilter: ExceptionFilter,
     @inject(Component.HttpExceptionFilter) private readonly httpExceptionFilter: ExceptionFilter,
     @inject(Component.ValidationExceptionFilter) private readonly validationExceptionFilter: ExceptionFilter,
@@ -48,7 +47,6 @@ export class RestApplication {
   private async _initControllers() {
     this.server.use('/users', this.userController.router);
     this.server.use('/offers', this.offerController.router);
-    this.server.use('/comments', this.commentController.router);
   }
 
   private async _initMiddleware() {

@@ -8,7 +8,7 @@ import { DatabaseClient, MongoDatabaseClient } from '../../shared/libs/database-
 import { Logger } from '../../shared/libs/logger/index.js';
 import { ConsoleLogger } from '../../shared/libs/logger/console.logger.js';
 import { DefaultUserService, UserModel } from '../../shared/modules/user/index.js';
-import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
+import { DEFAULT_DB_PORT, DEFAULT_USER_NAME, DEFAULT_USER_EMAIL, DEFAULT_USER_PASSWORD } from './command.constant.js';
 import { Offer } from '../../shared/types/index.js';
 
 export class ImportCommand implements Command {
@@ -23,7 +23,7 @@ export class ImportCommand implements Command {
     this.onCompleteImport = this.onCompleteImport.bind(this);
 
     this.logger = new ConsoleLogger();
-    this.offerService = new DefaultOfferService(this.logger, OfferModel, UserModel);
+    this.offerService = new DefaultOfferService(this.logger, OfferModel);
     this.userService = new DefaultUserService(this.logger, UserModel);
     this.databaseClient = new MongoDatabaseClient(this.logger);
   }
@@ -40,7 +40,6 @@ export class ImportCommand implements Command {
   }
 
   private async saveOffer(offer: Offer) {
-    const user = await this.userService.findOrCreate({ ...offer.user, password: DEFAULT_USER_PASSWORD}, this.salt);
     await this.offerService.create({...offer});
   }
 
@@ -53,6 +52,8 @@ export class ImportCommand implements Command {
     this.salt = salt;
 
     await this.databaseClient.connect(uri);
+
+    await this.userService.findOrCreate({ name: DEFAULT_USER_NAME, email: DEFAULT_USER_EMAIL, password: DEFAULT_USER_PASSWORD}, this.salt);
 
     const fileReader = new TSVFileReader(filename.trim());
     fileReader.on('line', this.onImportedLine);
