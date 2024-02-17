@@ -1,0 +1,14 @@
+import { getToken } from "../services";
+
+export function getNameFromToken() {
+  const token = getToken();
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace('-', '+').replace('_', '/');
+  const payload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  const payloadObj = JSON.parse(payload);
+
+  return payloadObj.name;
+}

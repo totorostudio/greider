@@ -1,6 +1,10 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context';
 
 export function Footer(): JSX.Element {
+  const {isAuth} = useContext(AuthContext)!;
+
   return (
     <footer className="footer">
       <div className="container">
@@ -31,18 +35,25 @@ export function Footer(): JSX.Element {
           <section className="footer__nav-section footer__nav-section--links">
             <h2 className="footer__nav-title footer__nav-title--links">Информация</h2>
             <ul className="footer__nav-list">
-              <li className="footer__nav-list-item">
-                <Link to="/offers" className="link footer__nav-link">Список товаров</Link>
-              </li>
-              <li className="footer__nav-list-item">
-                <Link to="/login" className="link footer__nav-link">Логин</Link>
-              </li>
-              <li className="footer__nav-list-item">
-                <Link to="/register" className="link footer__nav-link">Регистрация</Link>
-              </li>
-              <li className="footer__nav-list-item">
-                <Link to="/add" className="link footer__nav-link">Добавить товар</Link>
-              </li>
+              {isAuth ? (
+                <>
+                  <li className="footer__nav-list-item">
+                    <Link to="/offers" className="link footer__nav-link">Список товаров</Link>
+                  </li>
+                  <li className="footer__nav-list-item">
+                    <Link to="/add" className="link footer__nav-link">Добавить товар</Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="footer__nav-list-item">
+                    <Link to="/login" className="link footer__nav-link">Логин</Link>
+                  </li>
+                  <li className="footer__nav-list-item">
+                    <Link to="/register" className="link footer__nav-link">Регистрация</Link>
+                  </li>
+                </>
+              )}
             </ul>
           </section>
           <section className="footer__nav-section footer__nav-section--contacts">

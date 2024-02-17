@@ -6,3 +6,4 @@ export * from './footer/footer';
 export * from './list-card/list-card';
 export * from './loading/loading';
 export * from './error/error';
+export * from './message/message';

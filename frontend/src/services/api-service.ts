@@ -1,5 +1,5 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError} from 'axios';
-import {getToken} from './token';
+import {getToken} from './token-service';
 import {BACKEND_URL} from '../const';
 
 enum HttpStatus {
@@ -29,7 +29,8 @@ export const createAPI = (): AxiosInstance => {
       const token = getToken();
 
       if (token && config.headers) {
-        config.headers['x-token'] = token;
+        //config.headers['x-token'] = token;
+        config.headers['Authorization'] = `Bearer ${token}`;
       }
 
       return config;
