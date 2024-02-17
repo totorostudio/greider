@@ -19,10 +19,10 @@ export class TSVOfferGenerator implements OfferGenerator {
     const date = dayjs()
       .subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day')
       .toISOString();
-    const type = getRandomItem<string>(Object.keys(Guitar)) as keyof typeof Guitar;
+    const type = getRandomItem<string>(Object.values(Guitar));
     const image = getRandomItem<string>(this.mockData.images);
     const artikul = nanoid();
-    const strings = getRandomItem(Object.values(Strings));
+    const strings = getRandomItem<string>(Object.values(Strings));
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE);
 
     return [

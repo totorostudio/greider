@@ -1,26 +1,25 @@
 {
   "api": {
     "titles": [
-      "Stratocaster",
-      "Les Paul",
-      "Telecaster",
-      "SG",
-      "Explorer",
-      "Jazzmaster",
-      "PRS Custom 24",
-      "Acoustic-Electric",
-      "Flying V"
+      "Стратокастер",
+      "Гитара Лес Пол",
+      "Телекастер",
+      "Гитара Эксплорер",
+      "Джазмастер",
+      "PRS Кастом 24",
+      "Акустико-электрическая",
+      "Летающая V гитара"
     ],
     "descriptions": [
-      "Iconic guitar known for its versatile sound",
-      "Classic guitar with a rich, warm tone",
-      "Legendary guitar with a distinctive design",
-      "Solid body guitar with a powerful sound",
-      "Unique design with a bold and edgy style",
-      "Vintage-style guitar with a smooth tone",
-      "High-quality guitar with beautiful craftsmanship",
-      "Versatile guitar suitable for various styles",
-      "Futuristic design with a sharp, cutting sound"
+      "Иконическая гитара, известная своим универсальным звучанием",
+      "Классическая гитара с богатым, теплым тоном",
+      "Легендарная гитара с характерным дизайном",
+      "Сплошное тело гитары с мощным звуком",
+      "Уникальный дизайн с смелым и острым стилем",
+      "Гитара в винтажном стиле с мягким тоном",
+      "Гитара высокого качества с красивым мастерством",
+      "Универсальная гитара, подходящая для различных стилей",
+      "Футуристический дизайн с резким, режущим звуком"
     ],
     "images": [
       "catalog-product-0@2x.png",

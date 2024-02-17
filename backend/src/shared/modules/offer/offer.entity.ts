@@ -54,7 +54,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public artikul!: string;
 
   @prop({
-    type: () => Number,
+    type: () => String,
     enum: Strings,
     require: true,
   })

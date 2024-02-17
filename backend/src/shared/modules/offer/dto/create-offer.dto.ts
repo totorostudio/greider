@@ -26,7 +26,7 @@ export class CreateOfferDto {
 
   @IsInt({ message: CreateOfferValidationMessage.strings.invalidFormat })
   @IsEnum(Strings, { message: CreateOfferValidationMessage.strings.invalidFormat })
-  public strings!: number;
+  public strings!: string;
 
   @IsInt({ message: CreateOfferValidationMessage.price.invalidFormat })
   @Min(PriceValue.Min, { message: CreateOfferValidationMessage.price.minValue })

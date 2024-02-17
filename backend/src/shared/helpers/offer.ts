@@ -10,7 +10,7 @@ export function createOffer(data: string): Offer {
     type: type as Guitar,
     image,
     artikul,
-    strings: parseInt(strings, 10) as Strings,
+    strings: strings as Strings,
     price: Number.parseInt(price, 10),
   };
 }
