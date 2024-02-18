@@ -14,6 +14,15 @@ export const getAllOffers = async () => {
   }
 };
 
+export const getOfferById = async (id: string) => {
+  try {
+    const response = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const offerDelete = async (id: string) => {
   try {
     const response = await api.delete<Offer>(`${APIRoute.Offers}/${id}`);

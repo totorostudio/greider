@@ -9,7 +9,7 @@ export function Footer(): JSX.Element {
     <footer className="footer">
       <div className="container">
         <div className="footer__container">
-          <div className="footer__logo-wrapper"><Link to="/" className="footer__logo logo"><img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип" /></Link>
+          <div className="footer__logo-wrapper"><Link to="/" className="footer__logo logo"><img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип" /></Link>
             <div className="socials footer__socials">
               <ul className="socials__list">
                 <li className="socials-item"><a className="socials__link" href="https://www.skype.com/" aria-label="Мы в skype">

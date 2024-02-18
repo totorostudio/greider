@@ -21,7 +21,7 @@ export function Header(): JSX.Element {
   return (
     <header className={`header ${isAuth ? 'header--admin' : ''}`} id="header">
       <div className="container">
-        <div className="header__wrapper"><Link to="/" className="header__logo logo"><img className="logo__img" width="70" height="70" src="./img/svg/logo.svg" alt="Логотип" /></Link>
+        <div className="header__wrapper"><Link to="/" className="header__logo logo"><img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип" /></Link>
         {isAuth ? (
           <>
             <nav className="main-nav">

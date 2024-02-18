@@ -53,9 +53,11 @@ export function OffersListScreen(): JSX.Element {
               <div className="container">
                 <h1 className="product-list__title">Список товаров</h1>
                 <ul className="breadcrumbs">
-                  <li className="breadcrumbs__item"><a className="link">Вход</a>
+                  <li className="breadcrumbs__item">
+                    <span className="link" style={{ cursor: 'default', color: 'inherit' }}>Вход</span>
                   </li>
-                  <li className="breadcrumbs__item"><a className="link">Товары</a>
+                  <li className="breadcrumbs__item">
+                    <a className="link">Товары</a>
                   </li>
                 </ul>
                 <div className="catalog">

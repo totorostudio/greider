@@ -15,9 +15,3 @@ export enum AppRoute {
   Add = '/add',
   Edit = '/edit/:id',
 }
-
-export enum AuthorizationStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
-}

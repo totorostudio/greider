@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 import { Offer } from '../../types';
 
 type  ListCardProps = {
@@ -19,7 +20,7 @@ export function ListCard({ offer, onDelete }: ListCardProps): JSX.Element {
         <div className="catalog-item__data-wrapper">
           <Link to={`/offer/${_id}`} className="link"><p className="catalog-item__data-title">{title}</p></Link>
           <br />
-          <p className="catalog-item__data-date">Дата добавления {date.toLocaleString()}</p>
+          <p className="catalog-item__data-date">Дата добавления {dayjs(date.toLocaleString()).format('DD.MM.YYYY')}</p>
           <p className="catalog-item__data-price">{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₽</p>
         </div>
       </div>
