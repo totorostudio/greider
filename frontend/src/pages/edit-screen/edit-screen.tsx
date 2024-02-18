@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import dayjs from 'dayjs';
+import { Guitar, Offer, Strings } from '../../types';
 import { Header, Footer, Loading, Error, Message } from '../../components';
 import { useFetching } from '../../hooks';
 import { getOfferById, offerUpdate } from '../../services';
-import { Guitar, Offer, Strings } from '../../types';
 
 export function EditScreen(): JSX.Element {
   const { id } = useParams<{ id: string }>();
@@ -66,14 +66,13 @@ export function EditScreen(): JSX.Element {
       setMessage('Товар успешно обновлен');
       setTimeout(() => {
         setMessage('');
-      }, 1000);
-      console.log(newOffer);
+      }, 750);
       setOffer(newOffer);
     } catch (error) {
       setMessage(`Ошибка обновления товара: ${error}`);
       setTimeout(() => {
         setMessage('');
-      }, 2000);
+      }, 1500);
       console.error('Error in handleSubmit:', error);
     }
   }

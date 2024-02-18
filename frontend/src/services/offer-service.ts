@@ -40,3 +40,12 @@ export const offerUpdate = async (id: string, formData: FormData) => {
     throw error;
   }
 }
+
+export const offerCreate = async (formData: FormData) => {
+  try {
+    const response = await api.post<Offer>(APIRoute.Offers, formData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

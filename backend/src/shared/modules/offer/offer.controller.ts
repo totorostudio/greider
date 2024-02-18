@@ -31,6 +31,7 @@ export default class OfferController extends BaseController {
       middlewares: [
         new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateOfferDto),
+        new UploadFileMiddleware(UPLOAD_DIRECTORY, 'image'),
       ]
     });
     this.addRoute({
@@ -83,11 +84,19 @@ export default class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, {...offerData}));
   }
 
-  public async create({ body }: CreateOfferRequest, res: Response): Promise<void> {
+  public async create(req: CreateOfferRequest, res: Response): Promise<void> {
+    const { body, file } = req;
+
+    if (file) {
+      body.image = file.filename;
+      console.log(body.image);
+    }
+
     const result = await this.offerService.create({
       ...body,
       date: new Date(),
     });
+
     const offer = await this.offerService.findById(result.id);
     this.created(res, fillDTO(OfferRdo, offer));
   }
@@ -103,7 +112,6 @@ export default class OfferController extends BaseController {
 
     if (file) {
       body.image = file.filename;
-      console.log(body.image);
     }
 
     const updatedOffer = await this.offerService.updateById(body, params.offerId);
