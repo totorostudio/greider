@@ -35,11 +35,14 @@ export function OfferScreen(): JSX.Element {
               <div className="container">
                 <h1 className="page-content__title title title--bigger">Товар</h1>
                 <ul className="breadcrumbs page-content__breadcrumbs">
-                  <li className="breadcrumbs__item"><span className="link" style={{ cursor: 'default', color: 'inherit' }}>Вход</span>
+                  <li className="breadcrumbs__item">
+                    <span className="link" style={{ cursor: 'default', color: 'inherit' }}>Вход</span>
                   </li>
-                  <li className="breadcrumbs__item"><Link to="/offers" className="link">Список товаров</Link>
+                  <li className="breadcrumbs__item">
+                    <Link to="/offers" className="link">Список товаров</Link>
                   </li>
-                  <li className="breadcrumbs__item"><span className="link" style={{ cursor: 'default', color: 'inherit' }}>Товар</span>
+                  <li className="breadcrumbs__item">
+                    <span className="link" style={{ cursor: 'default', color: 'inherit' }}>{offer.title}</span>
                   </li>
                 </ul>
                 <div className="product-container"><img className="product-container__img" src={offer.image} srcSet={offer.image} width="90" height="235" alt="" />
