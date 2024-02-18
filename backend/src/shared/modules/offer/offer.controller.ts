@@ -1,4 +1,4 @@
-import { BaseController, DocumentExistsMiddleware, HttpMethod, ValidateDtoMiddleware, ValidateObjectIdMiddleware, PrivateRouteMiddleware } from '../../libs/rest/index.js';
+import { BaseController, DocumentExistsMiddleware, HttpMethod, ValidateDtoMiddleware, ValidateObjectIdMiddleware, PrivateRouteMiddleware, UploadFileMiddleware } from '../../libs/rest/index.js';
 import { HttpError } from '../../libs/rest/index.js';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
@@ -8,6 +8,7 @@ import { Request, Response } from 'express';
 import { fillDTO } from '../../helpers/index.js';
 import { ParamOfferId, CreateOfferRequest, OfferService, OfferRdo, UpdateOfferDto, CreateOfferDto } from './index.js';
 import { DEFAULT_OFFERS_COUNT } from '../../const/index.js';
+import { UPLOAD_DIRECTORY } from '../../../rest/rest.constant.js';
 
 @injectable()
 export default class OfferController extends BaseController {
@@ -29,7 +30,7 @@ export default class OfferController extends BaseController {
       handler: this.create,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateDtoMiddleware(CreateOfferDto)
+        new ValidateDtoMiddleware(CreateOfferDto),
       ]
     });
     this.addRoute({
@@ -48,7 +49,7 @@ export default class OfferController extends BaseController {
       middlewares: [
         new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
     });
     this.addRoute({
@@ -59,7 +60,8 @@ export default class OfferController extends BaseController {
         new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+        new UploadFileMiddleware(UPLOAD_DIRECTORY, 'image'),
       ]
     });
   }
@@ -96,7 +98,14 @@ export default class OfferController extends BaseController {
     this.noContent(res, offer);
   }
 
-  public async update({ body, params }: Request<ParamOfferId, unknown, UpdateOfferDto>, res: Response): Promise<void> {
+  public async update(req: Request<ParamOfferId, unknown, UpdateOfferDto>, res: Response): Promise<void> {
+    const { body, params, file } = req;
+
+    if (file) {
+      body.image = file.filename;
+      console.log(body.image);
+    }
+
     const updatedOffer = await this.offerService.updateById(body, params.offerId);
     if (updatedOffer) {
       const offerData = updatedOffer.toJSON ? updatedOffer.toJSON() : updatedOffer;

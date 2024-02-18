@@ -1,9 +1,9 @@
-import {Route, BrowserRouter, Routes, Navigate} from 'react-router-dom';
-import {HelmetProvider} from 'react-helmet-async';
-import {AppRoute} from '../../const';
-import {OffersListScreen, LoginScreen, RegisterScreen, OfferScreen, AddScreen, EditScreen, NotFoundScreen} from '../../pages';
+import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { AppRoute } from '../../const';
+import { OffersListScreen, LoginScreen, RegisterScreen, OfferScreen, AddScreen, EditScreen, NotFoundScreen } from '../../pages';
 import { Loading, ScrollToTop } from '../';
-import { AuthContext } from '../../context/auth-context';
+import { AuthContext } from '../../context';
 import { useAuth } from '../../hooks';
 
 function App(): JSX.Element {

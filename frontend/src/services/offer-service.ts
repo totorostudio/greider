@@ -31,3 +31,12 @@ export const offerDelete = async (id: string) => {
     throw error;
   }
 }
+
+export const offerUpdate = async (id: string, formData: FormData) => {
+  try {
+    const response = await api.patch<Offer>(`${APIRoute.Offers}/${id}`, formData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

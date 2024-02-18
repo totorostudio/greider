@@ -1,7 +1,7 @@
 {
-  "name": "six-cities",
+  "name": "guitar-shop",
   "version": "5.0.0",
-  "description": "Проект «Шесть городов» от HTML Academy",
+  "description": "Проект «guitar-shop» от HTML Academy",
   "keywords": [
     "rest",
     "api",

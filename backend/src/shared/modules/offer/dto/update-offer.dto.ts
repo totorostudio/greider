@@ -28,7 +28,6 @@ export class UpdateOfferDto {
   public artikul?: string;
 
   @IsOptional()
-  @IsInt({ message: CreateOfferValidationMessage.strings.invalidFormat })
   @IsEnum(Strings, { message: CreateOfferValidationMessage.strings.invalidFormat })
   public strings?: Strings;
 
