@@ -5,12 +5,16 @@ import { Guitar, Offer, SortBy, SortTypeQuery, Strings } from '../types';
 // Создание экземпляра API
 const api = createAPI();
 
-export const getAllOffers = async (sortBy: SortBy, sortDirection: SortTypeQuery, checkboxTypes: Guitar[], checkboxStrings: Strings[]) => {
+export const getAllOffers = async (pageNumber: number, sortBy: SortBy, sortDirection: SortTypeQuery, checkboxTypes: Guitar[], checkboxStrings: Strings[]) => {
   try {
     const typeQuery = checkboxTypes.length > 0 ? `&types=${checkboxTypes.join(',')}` : '';
     const stringsQuery = checkboxStrings.length > 0 ? `&strings=${checkboxStrings.join(',')}` : '';
-    const response = await api.get<Offer[]>(`${APIRoute.Offers}?sort=${sortBy}&direction=${sortDirection}${typeQuery}${stringsQuery}`);
-    return response.data;
+    const response = await api.get<Offer[]>(`${APIRoute.Offers}?page=${pageNumber}&sort=${sortBy}&direction=${sortDirection}${typeQuery}${stringsQuery}`);
+    const totalPages = response.headers['total-pages'];
+    return {
+      offers: response.data,
+      totalPages: totalPages,
+    };
   } catch (error) {
     throw error;
   }

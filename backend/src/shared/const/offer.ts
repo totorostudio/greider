@@ -1,4 +1,5 @@
 export const DEFAULT_OFFERS_COUNT = 7;
+export const DEFAULT_OFFERS_PAGE = 1;
 export const IMAGE_MAX_LENGTH = 256;
 
 export enum OfferTitleLength {

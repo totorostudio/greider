@@ -1,10 +1,10 @@
-import { Helmet } from 'react-helmet-async';
 import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { Guitar, Offer, SortBy, SortTypeQuery, Strings } from '../../types';
 import { useFetching } from '../../hooks';
 import { Header, Footer, ListCard, Loading, Error } from '../../components';
 import { getAllOffers, offerDelete } from '../../services';
+import { Guitar, Offer, SortBy, SortTypeQuery, Strings } from '../../types';
 
 export function OffersListScreen(): JSX.Element {
   const [offers, setOffers] = useState<Offer[]>([]);
@@ -13,9 +13,11 @@ export function OffersListScreen(): JSX.Element {
   const [sortDirection, setSortDirection] = useState<SortTypeQuery>(SortTypeQuery.Up);
   const [checkboxTypes, setCheckboxTypes] = useState<Guitar[]>([]);
   const [checkboxStrings, setCheckboxStrings] = useState<Strings[]>([]);
+  const [pageNumber, setPageNumber] = useState<number>(1);
 
   const { fetching: fetchOffers, isLoading, error } = useFetching(async () => {
-    const offers = await getAllOffers(sortBy, sortDirection, checkboxTypes, checkboxStrings);
+    const {offers, totalPages} = await getAllOffers(pageNumber, sortBy, sortDirection, checkboxTypes, checkboxStrings);
+    setPageNumber(parseInt(totalPages, 10));
     setOffers(offers);
   })
 
@@ -152,18 +154,20 @@ export function OffersListScreen(): JSX.Element {
                 <Link to="/add">
                   <button className="button product-list__button button--red button--big">Добавить новый товар</button>
                 </Link>
-                <div className="pagination product-list__pagination">
+                {/*<div className="pagination product-list__pagination">
                   <ul className="pagination__list">
-                    <li className="pagination__page pagination__page--active"><a className="link pagination__page-link" href="1">1</a>
+                    <li className={`pagination__page ${pageNumber === 1 ? 'pagination__page--active' : ''}`}>
+                      <a className="link pagination__page-link" href="1">1</a>
                     </li>
-                    <li className="pagination__page"><a className="link pagination__page-link" href="2">2</a>
+                    <li className="pagination__page">
+                      <a className="link pagination__page-link" href="2">2</a>
                     </li>
                     <li className="pagination__page"><a className="link pagination__page-link" href="3">3</a>
                     </li>
                     <li className="pagination__page pagination__page--next" id="next"><a className="link pagination__page-link" href="2">Далее</a>
                     </li>
                   </ul>
-                </div>
+                </div>*/}
               </div>
             </section>
           </main>

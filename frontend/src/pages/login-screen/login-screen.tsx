@@ -1,10 +1,10 @@
+import { ChangeEvent, useContext, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Header, Footer } from '../../components';
 import { AuthContext } from '../../context';
-import { ChangeEvent, useContext, useState } from 'react';
-import { AuthData } from '../../types';
 import { userLogin, saveToken } from '../../services';
-import { Link } from 'react-router-dom';
+import { AuthData } from '../../types';
 
 export function LoginScreen(): JSX.Element {
   const {setIsAuth} = useContext(AuthContext)!;

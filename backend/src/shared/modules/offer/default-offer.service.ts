@@ -16,7 +16,7 @@ export class DefaultOfferService implements OfferService {
     @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
   ) {}
 
-  public async find(count: number, sortBy: SortBy, sortType: SortType, filterTypes: Guitar[], filterStrings: Strings[]): Promise<DocumentType<OfferEntity>[]> {
+  public async find(queryLimit: number, queryPage: number, sortBy: SortBy, sortType: SortType, filterTypes: Guitar[], filterStrings: Strings[]): Promise<{offers: DocumentType<OfferEntity>[], total: number}> {
     const sortKey = sortBy === SortBy.Price ? 'price' : 'createdAt';
     const sortValue = sortType === SortType.Down ? SortType.Down : SortType.Up;
     const filter: Filter = {};
@@ -29,11 +29,16 @@ export class DefaultOfferService implements OfferService {
       filter.strings = { $in: filterStrings };
     }
 
-    return this.offerModel
-      .find(filter)
-      .sort({[sortKey]: sortValue})
-      .limit(count)
-      .exec();
+    const total = await this.offerModel.countDocuments(filter);
+
+    const offers = await this.offerModel
+    .find(filter)
+    .sort({[sortKey]: sortValue})
+    .limit(queryLimit)
+    .skip(queryLimit * (queryPage - 1))
+    .exec();
+
+    return { offers, total };
   }
 
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {

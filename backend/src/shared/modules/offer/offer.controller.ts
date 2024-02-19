@@ -7,7 +7,7 @@ import { Logger } from '../../libs/logger/index.js';
 import { Request, Response } from 'express';
 import { fillDTO } from '../../helpers/index.js';
 import { ParamOfferId, CreateOfferRequest, OfferService, OfferRdo, UpdateOfferDto, CreateOfferDto } from './index.js';
-import { DEFAULT_OFFERS_COUNT } from '../../const/index.js';
+import { DEFAULT_OFFERS_COUNT, DEFAULT_OFFERS_PAGE } from '../../const/index.js';
 import { UPLOAD_DIRECTORY } from '../../../rest/rest.constant.js';
 import { SortBy } from '../../types/sort-by.enum.js';
 
@@ -68,13 +68,17 @@ export default class OfferController extends BaseController {
     });
   }
 
-  public async index({ query: { limit, sort, direction, types, strings } }: Request, res: Response): Promise<void> {
-    const count = limit ? limit as unknown as number : DEFAULT_OFFERS_COUNT;
+  public async index({ query: { limit, page, sort, direction, types, strings } }: Request, res: Response): Promise<void> {
+    const queryLimit = limit ? limit as unknown as number : DEFAULT_OFFERS_COUNT;
+    const queryPage = !isNaN(Number(page)) ? Number(page) : DEFAULT_OFFERS_PAGE;
     const sortBy = sort === SortBy.Price ? SortBy.Price : SortBy.Date;
     const sortType = direction === SortTypeQuery.Down ? SortType.Down : SortType.Up;
     const filterTypes = types ? (types as string).split(',') as Guitar[] : [];
     const filterStrings = strings ? (strings as string).split(',') as Strings[] : [];
-    const offers = await this.offerService.find(count, sortBy, sortType, filterTypes, filterStrings);
+    const {offers, total} = await this.offerService.find(queryLimit, queryPage, sortBy, sortType, filterTypes, filterStrings);
+    const totalPages = Math.ceil(total / queryLimit);
+    res.setHeader('Total-Pages', `${totalPages}`);
+    res.setHeader('Total-Offers', `${total}`);
     this.ok(res, fillDTO(OfferRdo, offers));
   }
 
@@ -93,7 +97,6 @@ export default class OfferController extends BaseController {
 
     if (file) {
       body.image = file.filename;
-      console.log(body.image);
     }
 
     const result = await this.offerService.create({
