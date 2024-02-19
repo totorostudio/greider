@@ -74,7 +74,6 @@ export default class OfferController extends BaseController {
     const sortType = direction === SortTypeQuery.Down ? SortType.Down : SortType.Up;
     const filterTypes = types ? (types as string).split(',') as Guitar[] : [];
     const filterStrings = strings ? (strings as string).split(',') as Strings[] : [];
-    console.log(count, sortBy, sortType, types, strings);
     const offers = await this.offerService.find(count, sortBy, sortType, filterTypes, filterStrings);
     this.ok(res, fillDTO(OfferRdo, offers));
   }

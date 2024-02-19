@@ -21,8 +21,6 @@ export function OffersListScreen(): JSX.Element {
 
   useEffect(() => {
     fetchOffers();
-    console.log(checkboxTypes);
-    console.log(checkboxStrings);
   }, [sortBy, sortDirection, checkboxTypes, checkboxStrings]);
 
     const handleDelete = async (offerId: string) => {

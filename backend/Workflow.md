@@ -39,12 +39,12 @@ docker compose up -d
 npm run mock:server
 ```
 
-Команда генерации 100 тестовых данных в файл **.tsv**.
+Команда генерации 30 тестовых данных в файл **.tsv**.
 
 ```bash
-npm run cli -- --generate 100 ./mock/mock-data.tsv http://localhost:3123/api
+npm run cli -- --generate 30 ./mock/mock-data.tsv http://localhost:3123/api
 
-npm run ts ./src/main.cli.ts -- --generate 100 ./mock/mock-data.tsv http://localhost:3123/api
+npm run ts ./src/main.cli.ts -- --generate 30 ./mock/mock-data.tsv http://localhost:3123/api
 ```
 
 Команда импорта тестовых данных из файла **.tsv** в БД.

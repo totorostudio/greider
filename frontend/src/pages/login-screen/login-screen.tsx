@@ -12,6 +12,7 @@ export function LoginScreen(): JSX.Element {
   const [password, setPassword] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('Заполните поле');
   const [passError, setPassError] = useState<string>('Заполните поле');
+  const [eye, setEye] = useState<string>('password');
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,6 +49,14 @@ export function LoginScreen(): JSX.Element {
     }
   };
 
+  const eyeHandler = () => {
+    if (eye === 'password') {
+      setEye('text');
+    } else {
+      setEye('password');
+    }
+  }
+
   return (
     <>
       <Helmet><title>Вход на сайт | Guitar Shop 2024</title></Helmet>
@@ -65,8 +74,8 @@ export function LoginScreen(): JSX.Element {
               </div>
               <div className="input-login">
                 <label htmlFor="passwordLogin">Введите пароль</label><span>
-                  <input type="password" onChange={handlePassChange} placeholder="• • • • • • • • • • • •" id="passwordLogin" name="password" autoComplete="off" minLength={6} maxLength={12} required />
-                  <button className="input-login__button-eye" type="button">
+                  <input type={eye === 'text' ? 'text' : 'password'} onChange={handlePassChange} placeholder="• • • • • • • • • • • •" id="passwordLogin" name="password" autoComplete="off" minLength={6} maxLength={12} required />
+                  <button onClick={eyeHandler} className="input-login__button-eye" type="button">
                     <svg width="14" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-eye"></use>
                     </svg>
