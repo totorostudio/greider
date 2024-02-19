@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, ChangeEvent } from 'react';
 import { AuthData } from '../../types';
 import { userRegister } from '../../services';
+import { MESSAGE_SHORT_TIMEOUT } from '../../const';
 
 export function RegisterScreen(): JSX.Element {
   const [name, setName] = useState<string>('');
@@ -24,7 +25,7 @@ export function RegisterScreen(): JSX.Element {
       setTimeout(() => {
         setIsSuccess(false);
         navigate('/login');
-      }, 1000);
+      }, MESSAGE_SHORT_TIMEOUT);
     } catch (error) {
       console.error('Error in handleRegister:', error);
       setNameError('Ошибка. Пожалуйста, проверьте свои данные.');

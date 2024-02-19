@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import { Guitar, Strings } from '../../types';
 import { Header, Footer, Message } from '../../components';
 import { offerCreate } from '../../services';
+import { MESSAGE_SHORT_TIMEOUT, MESSAGE_LONG_TIMEOUT } from '../../const';
 
 export function AddScreen(): JSX.Element {
   const [inputTitle, setInputTitle] = useState('');
@@ -41,12 +42,12 @@ export function AddScreen(): JSX.Element {
       setTimeout(() => {
         setMessage('');
         navigate('/offers');
-      }, 750);
+      }, MESSAGE_SHORT_TIMEOUT);
     } catch (error) {
       setMessage(`Ошибка добавления товара: ${error}`);
       setTimeout(() => {
         setMessage('');
-      }, 1500);
+      }, MESSAGE_LONG_TIMEOUT);
       console.error('Error in handleSubmit:', error);
     }
   }

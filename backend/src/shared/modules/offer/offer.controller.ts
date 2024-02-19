@@ -2,13 +2,14 @@ import { BaseController, DocumentExistsMiddleware, HttpMethod, ValidateDtoMiddle
 import { HttpError } from '../../libs/rest/index.js';
 import { StatusCodes } from 'http-status-codes';
 import { inject, injectable } from 'inversify';
-import { Component } from '../../types/index.js';
+import { Component, Guitar, SortType, SortTypeQuery, Strings } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { Request, Response } from 'express';
 import { fillDTO } from '../../helpers/index.js';
 import { ParamOfferId, CreateOfferRequest, OfferService, OfferRdo, UpdateOfferDto, CreateOfferDto } from './index.js';
 import { DEFAULT_OFFERS_COUNT } from '../../const/index.js';
 import { UPLOAD_DIRECTORY } from '../../../rest/rest.constant.js';
+import { SortBy } from '../../types/sort-by.enum.js';
 
 @injectable()
 export default class OfferController extends BaseController {
@@ -67,10 +68,14 @@ export default class OfferController extends BaseController {
     });
   }
 
-  public async index({ query: { limit } }: Request, res: Response): Promise<void> {
+  public async index({ query: { limit, sort, direction, types, strings } }: Request, res: Response): Promise<void> {
     const count = limit ? limit as unknown as number : DEFAULT_OFFERS_COUNT;
-    const offers = await this.offerService.find(count);
-    //TODO пагинация по 7, фильтрация, сортировка
+    const sortBy = sort === SortBy.Price ? SortBy.Price : SortBy.Date;
+    const sortType = direction === SortTypeQuery.Down ? SortType.Down : SortType.Up;
+    const filterTypes = types ? (types as string).split(',') as Guitar[] : [];
+    const filterStrings = strings ? (strings as string).split(',') as Strings[] : [];
+    console.log(count, sortBy, sortType, types, strings);
+    const offers = await this.offerService.find(count, sortBy, sortType, filterTypes, filterStrings);
     this.ok(res, fillDTO(OfferRdo, offers));
   }
 

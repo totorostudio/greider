@@ -1,8 +1,13 @@
 import { inject, injectable } from 'inversify';
 import { OfferService, OfferEntity, CreateOfferDto, UpdateOfferDto } from './index.js';
-import { Component, SortType } from '../../types/index.js';
+import { Component, SortType, SortBy, Guitar, Strings } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { DocumentType, types } from '@typegoose/typegoose';
+
+interface Filter {
+  type?: { $in: Guitar[] };
+  strings?: { $in: Strings[] };
+}
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -11,10 +16,22 @@ export class DefaultOfferService implements OfferService {
     @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
   ) {}
 
-  public async find(count: number): Promise<DocumentType<OfferEntity>[]> {
+  public async find(count: number, sortBy: SortBy, sortType: SortType, filterTypes: Guitar[], filterStrings: Strings[]): Promise<DocumentType<OfferEntity>[]> {
+    const sortKey = sortBy === SortBy.Price ? 'price' : 'createdAt';
+    const sortValue = sortType === SortType.Down ? SortType.Down : SortType.Up;
+    const filter: Filter = {};
+
+    if (filterTypes.length > 0) {
+      filter.type = { $in: filterTypes };
+    }
+
+    if (filterStrings.length > 0) {
+      filter.strings = { $in: filterStrings };
+    }
+
     return this.offerModel
-      .find({})
-      .sort({createdAt: SortType.Down})
+      .find(filter)
+      .sort({[sortKey]: sortValue})
       .limit(count)
       .exec();
   }

@@ -6,6 +6,7 @@ import { Guitar, Offer, Strings } from '../../types';
 import { Header, Footer, Loading, Error, Message } from '../../components';
 import { useFetching } from '../../hooks';
 import { getOfferById, offerUpdate } from '../../services';
+import { MESSAGE_SHORT_TIMEOUT, MESSAGE_LONG_TIMEOUT } from '../../const';
 
 export function EditScreen(): JSX.Element {
   const { id } = useParams<{ id: string }>();
@@ -66,13 +67,13 @@ export function EditScreen(): JSX.Element {
       setMessage('Товар успешно обновлен');
       setTimeout(() => {
         setMessage('');
-      }, 750);
+      }, MESSAGE_SHORT_TIMEOUT);
       setOffer(newOffer);
     } catch (error) {
       setMessage(`Ошибка обновления товара: ${error}`);
       setTimeout(() => {
         setMessage('');
-      }, 1500);
+      }, MESSAGE_LONG_TIMEOUT);
       console.error('Error in handleSubmit:', error);
     }
   }
@@ -130,21 +131,21 @@ export function EditScreen(): JSX.Element {
                           </div>
                         </div>
                         <div className="input-radio edit-item__form-radio"><span>Тип товара</span>
-                          <input type="radio" id="guitar" name="guitar" value={Guitar.Acoustic} checked={radioType === Guitar.Acoustic} onChange={(e) => setRadioType(e.target.value as Guitar)}/>
+                          <input type="radio" onChange={(e) => setRadioType(e.target.value as Guitar)} id="guitar" name="guitar" value={Guitar.Acoustic} checked={radioType === Guitar.Acoustic} />
                           <label htmlFor="guitar">Акустическая гитара</label>
-                          <input type="radio" id="el-guitar" name="el-guitar" value={Guitar.Electric} checked={radioType === Guitar.Electric} onChange={(e) => setRadioType(e.target.value as Guitar)} />
+                          <input type="radio" onChange={(e) => setRadioType(e.target.value as Guitar)} id="el-guitar" name="el-guitar" value={Guitar.Electric} checked={radioType === Guitar.Electric} />
                           <label htmlFor="el-guitar">Электрогитара</label>
-                          <input type="radio" id="ukulele" name="ukulele" value={Guitar.Ukulele}  checked={radioType === Guitar.Ukulele} onChange={(e) => setRadioType(e.target.value as Guitar)}/>
+                          <input type="radio" onChange={(e) => setRadioType(e.target.value as Guitar)} id="ukulele" name="ukulele" value={Guitar.Ukulele}  checked={radioType === Guitar.Ukulele} />
                           <label htmlFor="ukulele">Укулеле</label>
                         </div>
                         <div className="input-radio edit-item__form-radio"><span>Количество струн</span>
-                          <input type="radio" id="string-qty-4" name="string-qty-4" value={Strings.Four} checked={radioStrings === Strings.Four} onChange={(e) => setRadioStrings(e.target.value as Strings)}/>
+                          <input type="radio" onChange={(e) => setRadioStrings(e.target.value as Strings)} id="string-qty-4" name="string-qty-4" value={Strings.Four} checked={radioStrings === Strings.Four} />
                           <label htmlFor="string-qty-4">4</label>
-                          <input type="radio" id="string-qty-6" name="string-qty-6" value={Strings.Six} checked={radioStrings === Strings.Six} onChange={(e) => setRadioStrings(e.target.value as Strings)}/>
+                          <input type="radio" onChange={(e) => setRadioStrings(e.target.value as Strings)} id="string-qty-6" name="string-qty-6" value={Strings.Six} checked={radioStrings === Strings.Six} />
                           <label htmlFor="string-qty-6">6</label>
-                          <input type="radio" id="string-qty-7" name="string-qty-7" value={Strings.Seven} checked={radioStrings === Strings.Seven} onChange={(e) => setRadioStrings(e.target.value as Strings)}/>
+                          <input type="radio" onChange={(e) => setRadioStrings(e.target.value as Strings)} id="string-qty-7" name="string-qty-7" value={Strings.Seven} checked={radioStrings === Strings.Seven} />
                           <label htmlFor="string-qty-7">7</label>
-                          <input type="radio" id="string-qty-12" name="string-qty-12" value={Strings.Twelve} checked={radioStrings === Strings.Twelve} onChange={(e) => setRadioStrings(e.target.value as Strings)}/>
+                          <input type="radio" onChange={(e) => setRadioStrings(e.target.value as Strings)} id="string-qty-12" name="string-qty-12" value={Strings.Twelve} checked={radioStrings === Strings.Twelve} />
                           <label htmlFor="string-qty-12">12</label>
                         </div>
                       </div>

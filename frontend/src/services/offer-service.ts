@@ -1,13 +1,15 @@
 import { createAPI } from './api-service';
 import { APIRoute } from '../const';
-import { Offer } from '../types';
+import { Guitar, Offer, SortBy, SortTypeQuery, Strings } from '../types';
 
 // Создание экземпляра API
 const api = createAPI();
 
-export const getAllOffers = async () => {
+export const getAllOffers = async (sortBy: SortBy, sortDirection: SortTypeQuery, checkboxTypes: Guitar[], checkboxStrings: Strings[]) => {
   try {
-    const response = await api.get<Offer[]>(APIRoute.Offers);
+    const typeQuery = checkboxTypes.length > 0 ? `&types=${checkboxTypes.join(',')}` : '';
+    const stringsQuery = checkboxStrings.length > 0 ? `&strings=${checkboxStrings.join(',')}` : '';
+    const response = await api.get<Offer[]>(`${APIRoute.Offers}?sort=${sortBy}&direction=${sortDirection}${typeQuery}${stringsQuery}`);
     return response.data;
   } catch (error) {
     throw error;

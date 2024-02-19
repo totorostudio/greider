@@ -6,3 +6,4 @@ export * from './component.enum.js';
 export * from './sort-type.enum.js';
 export * from './document-exists.interface.js';
 export * from './strings.enum.js';
+export * from './sort-by.enum.js';

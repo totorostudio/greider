@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Offer } from '../../types';
+import { Guitar, Offer, SortBy, SortTypeQuery, Strings } from '../../types';
 import { useFetching } from '../../hooks';
 import { Header, Footer, ListCard, Loading, Error } from '../../components';
 import { getAllOffers, offerDelete } from '../../services';
@@ -9,20 +9,25 @@ import { getAllOffers, offerDelete } from '../../services';
 export function OffersListScreen(): JSX.Element {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [message, setMessage] = useState<string>('');
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.Date);
+  const [sortDirection, setSortDirection] = useState<SortTypeQuery>(SortTypeQuery.Up);
+  const [checkboxTypes, setCheckboxTypes] = useState<Guitar[]>([]);
+  const [checkboxStrings, setCheckboxStrings] = useState<Strings[]>([]);
 
   const { fetching: fetchOffers, isLoading, error } = useFetching(async () => {
-    const offers = await getAllOffers();
+    const offers = await getAllOffers(sortBy, sortDirection, checkboxTypes, checkboxStrings);
     setOffers(offers);
   })
 
   useEffect(() => {
     fetchOffers();
-  }, []);
+    console.log(checkboxTypes);
+    console.log(checkboxStrings);
+  }, [sortBy, sortDirection, checkboxTypes, checkboxStrings]);
 
     const handleDelete = async (offerId: string) => {
     try {
-      const delResponse = await offerDelete(offerId);
-      console.log(delResponse);
+      await offerDelete(offerId);
       const updatedOffers = offers.filter((offer) => offer._id !== offerId);
       setOffers(updatedOffers);
       setMessage('Товар успешно удален');
@@ -37,6 +42,28 @@ export function OffersListScreen(): JSX.Element {
       }, 1000);
     }
   }
+
+  const handleGuitarCheckboxChange = (value: Guitar) => {
+    if (checkboxTypes.includes(value)) {
+      setCheckboxTypes(checkboxTypes.filter(item => item !== value));
+    } else {
+      setCheckboxTypes([...checkboxTypes, value]);
+    }
+  };
+
+  const handleStringsCheckboxChange = (value: Strings) => {
+    if (checkboxStrings.includes(value)) {
+      setCheckboxStrings(checkboxStrings.filter(item => item !== value));
+    } else {
+      setCheckboxStrings([...checkboxStrings, value]);
+    }
+  };
+
+  const handleClearButton = (event: React.FormEvent) => {
+    event.preventDefault();
+    setCheckboxTypes([]);
+    setCheckboxStrings([]);
+  };
 
   return (
     <>
@@ -57,7 +84,7 @@ export function OffersListScreen(): JSX.Element {
                     <span className="link" style={{ cursor: 'default', color: 'inherit' }}>Вход</span>
                   </li>
                   <li className="breadcrumbs__item">
-                    <a className="link">Товары</a>
+                    <a className="link">Список товаров</a>
                   </li>
                 </ul>
                 <div className="catalog">
@@ -66,49 +93,49 @@ export function OffersListScreen(): JSX.Element {
                     <fieldset className="catalog-filter__block">
                       <legend className="catalog-filter__block-title">Тип гитар</legend>
                       <div className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id="acoustic" name="acoustic" />
+                        <input type="checkbox" onChange={() => handleGuitarCheckboxChange(Guitar.Acoustic)} value={Guitar.Acoustic} className="visually-hidden" id="acoustic" name="acoustic" checked={checkboxTypes.includes(Guitar.Acoustic)}/>
                         <label htmlFor="acoustic">Акустические гитары</label>
                       </div>
                       <div className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id="electric" name="electric" checked />
+                        <input type="checkbox" onChange={() => handleGuitarCheckboxChange(Guitar.Electric)} value={Guitar.Electric} className="visually-hidden" id="electric" name="electric" checked={checkboxTypes.includes(Guitar.Electric)} />
                         <label htmlFor="electric">Электрогитары</label>
                       </div>
                       <div className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id="ukulele" name="ukulele" checked />
+                        <input type="checkbox" onChange={() => handleGuitarCheckboxChange(Guitar.Ukulele)} value={Guitar.Ukulele} className="visually-hidden" id="ukulele" name="ukulele" checked={checkboxTypes.includes(Guitar.Ukulele)} />
                         <label htmlFor="ukulele">Укулеле</label>
                       </div>
                     </fieldset>
                     <fieldset className="catalog-filter__block">
                       <legend className="catalog-filter__block-title">Количество струн</legend>
                       <div className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" checked />
+                        <input type="checkbox" onChange={() => handleStringsCheckboxChange(Strings.Four)} value={Strings.Four} className="visually-hidden" id="4-strings" name="4-strings" checked={checkboxStrings.includes(Strings.Four)} />
                         <label htmlFor="4-strings">4</label>
                       </div>
                       <div className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" checked />
+                        <input type="checkbox" onChange={() => handleStringsCheckboxChange(Strings.Six)} value={Strings.Six} className="visually-hidden" id="6-strings" name="6-strings" checked={checkboxStrings.includes(Strings.Six)} />
                         <label htmlFor="6-strings">6</label>
                       </div>
                       <div className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id="7-strings" name="7-strings" />
+                        <input type="checkbox" onChange={() => handleStringsCheckboxChange(Strings.Seven)} value={Strings.Seven} className="visually-hidden" id="7-strings" name="7-strings" checked={checkboxStrings.includes(Strings.Seven)} />
                         <label htmlFor="7-strings">7</label>
                       </div>
                       <div className="form-checkbox catalog-filter__block-item">
-                        <input className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" disabled />
+                        <input type="checkbox" onChange={() => handleStringsCheckboxChange(Strings.Twelve)} value={Strings.Twelve} className="visually-hidden" id="12-strings" name="12-strings" checked={checkboxStrings.includes(Strings.Twelve)} />
                         <label htmlFor="12-strings">12</label>
                       </div>
                     </fieldset>
-                    <button className="catalog-filter__reset-btn button button--black-border button--medium" type="reset">Очистить</button>
+                    <button onClick={handleClearButton} className="catalog-filter__reset-btn button button--black-border button--medium" type="reset">Очистить</button>
                   </form>
                   <div className="catalog-sort">
                     <h2 className="catalog-sort__title">Сортировать:</h2>
                     <div className="catalog-sort__type">
-                      <button className="catalog-sort__type-button catalog-sort__type-button--active" aria-label="по цене">по дате</button>
-                      <button className="catalog-sort__type-button" aria-label="по цене">по цене</button>
+                      <button onClick={() => setSortBy(SortBy.Date)} className={`catalog-sort__type-button ${sortBy === SortBy.Date ? 'catalog-sort__type-button--active' : ''}`} aria-label="по дате">по дате</button>
+                      <button onClick={() => setSortBy(SortBy.Price)} className={`catalog-sort__type-button ${sortBy === SortBy.Price ? 'catalog-sort__type-button--active' : ''}`} aria-label="по цене">по цене</button>
                     </div>
                     {message && <h3 className="catalog-sort__title">{message}</h3>}
                     <div className="catalog-sort__order">
-                      <button className="catalog-sort__order-button catalog-sort__order-button--up" aria-label="По возрастанию"></button>
-                      <button className="catalog-sort__order-button catalog-sort__order-button--down catalog-sort__order-button--active" aria-label="По убыванию"></button>
+                      <button onClick={() => setSortDirection(SortTypeQuery.Up)} className={`catalog-sort__order-button catalog-sort__order-button--up ${sortDirection === SortTypeQuery.Up ? 'catalog-sort__order-button--active' : ''}`} aria-label="По возрастанию"></button>
+                      <button onClick={() => setSortDirection(SortTypeQuery.Down)} className={`catalog-sort__order-button catalog-sort__order-button--down ${sortDirection === SortTypeQuery.Down ? 'catalog-sort__order-button--active' : ''}`} aria-label="По убыванию"></button>
                     </div>
                   </div>
                   <div className="catalog-cards">
