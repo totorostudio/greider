@@ -5,6 +5,7 @@ import { useFetching } from '../../hooks';
 import { Header, Footer, ListCard, Loading, Error } from '../../components';
 import { getAllOffers, offerDelete } from '../../services';
 import { Guitar, Offer, SortBy, SortTypeQuery, Strings } from '../../types';
+import { MESSAGE_SHORT_TIMEOUT } from '../../const';
 
 export function OffersListScreen(): JSX.Element {
   const [offers, setOffers] = useState<Offer[]>([]);
@@ -13,17 +14,29 @@ export function OffersListScreen(): JSX.Element {
   const [sortDirection, setSortDirection] = useState<SortTypeQuery>(SortTypeQuery.Up);
   const [checkboxTypes, setCheckboxTypes] = useState<Guitar[]>([]);
   const [checkboxStrings, setCheckboxStrings] = useState<Strings[]>([]);
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pages, setPages] = useState<number[]>([1]);
+  const [visiblePages, setVisiblePages] = useState<number[]>([1]);
 
   const { fetching: fetchOffers, isLoading, error } = useFetching(async () => {
-    const {offers, totalPages} = await getAllOffers(pageNumber, sortBy, sortDirection, checkboxTypes, checkboxStrings);
-    setPageNumber(parseInt(totalPages, 10));
+    const {offers, totalPages} = await getAllOffers(currentPage, sortBy, sortDirection, checkboxTypes, checkboxStrings);
+    setPages(Array.from({length: parseInt(totalPages, 10)}, (_, i) => i + 1));
+    let newPages = [currentPage];
+    if (currentPage + 1 <= parseInt(totalPages, 10)) {
+      newPages.push(currentPage + 1);
+    }
+    if (currentPage + 2 <= parseInt(totalPages, 10)) {
+      newPages.push(currentPage + 2);
+    }
+    setVisiblePages(newPages);
     setOffers(offers);
   })
 
   useEffect(() => {
     fetchOffers();
-  }, [sortBy, sortDirection, checkboxTypes, checkboxStrings]);
+    console.log(currentPage);
+    console.log(pages);
+  }, [sortBy, sortDirection, checkboxTypes, checkboxStrings, currentPage]);
 
     const handleDelete = async (offerId: string) => {
     try {
@@ -33,13 +46,13 @@ export function OffersListScreen(): JSX.Element {
       setMessage('Товар успешно удален');
       setTimeout(() => {
         setMessage('');
-      }, 1000);
+      }, MESSAGE_SHORT_TIMEOUT);
     } catch (error) {
       console.error(`Error delete offer ${offerId}:`, error);
       setMessage('Ошибка удаления товара');
       setTimeout(() => {
         setMessage('');
-      }, 1000);
+      }, MESSAGE_SHORT_TIMEOUT);
     }
   }
 
@@ -154,20 +167,25 @@ export function OffersListScreen(): JSX.Element {
                 <Link to="/add">
                   <button className="button product-list__button button--red button--big">Добавить новый товар</button>
                 </Link>
-                {/*<div className="pagination product-list__pagination">
+                <div className="pagination product-list__pagination">
                   <ul className="pagination__list">
-                    <li className={`pagination__page ${pageNumber === 1 ? 'pagination__page--active' : ''}`}>
-                      <a className="link pagination__page-link" href="1">1</a>
-                    </li>
-                    <li className="pagination__page">
-                      <a className="link pagination__page-link" href="2">2</a>
-                    </li>
-                    <li className="pagination__page"><a className="link pagination__page-link" href="3">3</a>
-                    </li>
-                    <li className="pagination__page pagination__page--next" id="next"><a className="link pagination__page-link" href="2">Далее</a>
-                    </li>
+                    {currentPage > 1 && (
+                      <li className="pagination__page pagination__page--next" id="next">
+                        <a className="link pagination__page-link" href="#" onClick={() => setCurrentPage(currentPage - 1)}>Назад</a>
+                      </li>
+                    )}
+                    {visiblePages.map(page => (
+                      <li key={page} className={`pagination__page ${page === currentPage ? 'pagination__page--active' : ''}`}>
+                        <a className="link pagination__page-link" href="#" onClick={() => setCurrentPage(page)}>{page}</a>
+                      </li>
+                    ))}
+                    {pages.length > 3 && currentPage < pages.length - 2 && (
+                      <li className="pagination__page pagination__page--next" id="next">
+                        <a className="link pagination__page-link" href="#" onClick={() => setCurrentPage(currentPage + 3)}>Далее</a>
+                      </li>
+                    )}
                   </ul>
-                </div>*/}
+                </div>
               </div>
             </section>
           </main>

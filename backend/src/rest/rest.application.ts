@@ -49,17 +49,19 @@ export class RestApplication {
     this.server.use('/offers', this.offerController.router);
   }
 
-  private async _initMiddleware() {
-    const authenticateMiddleware = new ParseTokenMiddleware(this.config.get('JWT_SECRET'));
+    private async _initMiddleware() {
+      const authenticateMiddleware = new ParseTokenMiddleware(this.config.get('JWT_SECRET'));
 
-    this.server.use(express.json());
-    this.server.use(
-      STATIC_FILES_ROUTE,
-      express.static(this.config.get('STATIC_DIRECTORY'))
-    );
-    this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
-    this.server.use(cors());
-  }
+      this.server.use(express.json());
+      this.server.use(
+        STATIC_FILES_ROUTE,
+        express.static(this.config.get('STATIC_DIRECTORY'))
+      );
+      this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+      this.server.use(cors({
+        exposedHeaders: ['Total-Pages', 'Total-Offers']
+      }));
+    }
 
   private async _initExceptionFilters() {
     this.server.use(this.authExceptionFilter.catch.bind(this.authExceptionFilter));
